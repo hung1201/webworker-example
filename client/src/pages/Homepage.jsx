@@ -38,8 +38,9 @@ const Homepage = () => {
   useEffect(() => {
     if (worker) {
       worker.onmessage = function (e) {
+        console.log("e.data::", e.data);
         if (typeof e.data === "string") {
-          if(e.data.includes("[")){
+          if (e.data.includes("[")) {
             setLog((preLogs) => [...preLogs, e.data]);
           } else {
             setRes((prevRes) => [...prevRes, { stockPrice: e.data }]);
@@ -76,7 +77,7 @@ const Homepage = () => {
         </div>
         <LineChartComponent data={res} />
       </div>
-      <Logger logs={log}/>
+      <Logger logs={log} />
     </>
   );
 };

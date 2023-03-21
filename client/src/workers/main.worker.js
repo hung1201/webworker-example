@@ -22,7 +22,8 @@ function socketManagement() {
 
     socketInstance.onmessage = function (event) {
       console.log(`[message] Data received from server: ${event.data}`);
-      postMessage( event.data);
+      postMessage(`[message] Data received from server: ${event.data}`);
+      postMessage(event.data);
     };
 
     socketInstance.onclose = function (event) {
@@ -32,8 +33,8 @@ function socketManagement() {
       } else {
         // e.g. server process killed or network down
         // event.code is usually 1006 in this case
-        console.log('[close] Connection died');
-        postMessage('[SOCKET] Connection died');
+        console.log("[close] Connection died");
+        postMessage("[SOCKET] Connection died");
       }
       postMessage({ disableStartButton: false });
     };
@@ -48,10 +49,11 @@ function socketManagement() {
 
 //SWITCH CASE: SOCKET MANAGEMENT:
 // eslint-disable-next-line no-restricted-globals
-self.onmessage = function (e) {
-  const workerData = e.data;
+self.onmessage = function ({ data: { connectionStatus } }) {
+  console.log("connectionStatus::", connectionStatus);
+  // const workerData = e.data;
   postMessage("[WORKER] Web worker onmessage established");
-  switch (workerData.connectionStatus) {
+  switch (connectionStatus) {
     case "init":
       socketInstance = createSocketInstance();
       socketManagement();
@@ -64,4 +66,4 @@ self.onmessage = function (e) {
     default:
       socketManagement();
   }
-}
+};

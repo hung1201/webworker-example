@@ -3,8 +3,8 @@ const Logger = ({ logs }) => {
     <div className="logger">
       <h4>Logged Messages</h4>
       <ul>
-        {logs.map((item) => (
-          <li key={`v-${item}`}>{item}</li>
+        {logs.map((item, index) => (
+          <li key={`v-${index}`}>{item}</li>
         ))}
       </ul>
     </div>
